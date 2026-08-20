@@ -31,3 +31,11 @@ export class AccountSuspendedError extends AppError {
         super("This account has been suspeneded");
     }
 }
+
+export class UserCreationError extends AppError {
+    readonly code = "USER_CREATION_ERROR";
+
+    constructor() {
+        super("An error occured creating the user");
+    }
+}

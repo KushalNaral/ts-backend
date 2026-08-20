@@ -1,51 +1,50 @@
-import type { CreateUserData, UpdateUserData, UpdateUserStatus } from "@/auth/schemas/auth.schemas";
+import type { UpdateUserData, UpdateUserStatus, User } from "@/auth/schemas/auth.schemas";
 import type { Database, DatabaseExecutor } from "@/db";
 import { users } from "@/db/schema";
+import { UserCreationError } from "@/errors/auth-errors";
 import { eq } from "drizzle-orm";
 
+type NewUser = typeof users.$inferInsert;
 export class UserRepository {
 
     constructor(private readonly db: DatabaseExecutor) { }
 
-    async findById(id: string) {
-        const user = await this.db
+    async findById(id: string): Promise<User | null> {
+
+        const [user] = await this.db
             .select()
             .from(users)
             .where(eq(users.id, id))
             .limit(1);
 
-        return user;
-
+        return user ?? null;
     }
 
-    async findByEmail(email: string) {
-        const user = await this.db
+    async findByEmail(email: string): Promise<User | null> {
+
+        const [user] = await this.db
             .select()
             .from(users)
             .where(eq(users.email, email))
             .limit(1);
 
-        return user;
+        return user ?? null;
     }
 
-    async create(data: CreateUserData) {
-        const user: typeof users.$inferInsert = {
-            name: data.name,
-            email: data.email,
-            passwordHash: data.passwordHash,
-            role: data.role,
-            lastLoginAt: data.lastLoginAt,
-        };
-
+    async create(data: NewUser): Promise<User> {
         const [createdUser] = await this.db
             .insert(users)
-            .values(user)
+            .values(data)
             .returning();
+
+        if (!createdUser) {
+            throw new UserCreationError();
+        }
 
         return createdUser;
     }
 
-    async update(id: string, data: UpdateUserData) {
+    async update(id: string, data: UpdateUserData): Promise<User | null> {
         const [updatedUser] = await this.db
             .update(users)
             .set({
@@ -57,6 +56,7 @@ export class UserRepository {
 
         return updatedUser ?? null;
     }
+
     async updateStatus(id: string, data: UpdateUserStatus) {
         await this.db
             .update(users)
@@ -66,8 +66,16 @@ export class UserRepository {
             .where(eq(users.id, id));
     }
 
-    async delete(id: string) {
-        await this.db.delete(users).where(eq(users.id, id))
+    async delete(id: string): Promise<boolean> {
+
+        const deleted = await this.db
+            .delete(users)
+            .where(eq(users.id, id))
+            .returning({
+                id: users.id,
+            });
+
+        return deleted.length > 0;
     }
 
 }
