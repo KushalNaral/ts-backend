@@ -1,4 +1,4 @@
-export interface UnitofWork<TScope extends TransactionScope> {
+export interface UnitOfWork<TScope extends TransactionScope> {
     transaction<T>(
         callback: (scope: TScope) => Promise<T>
     ): Promise<T>;

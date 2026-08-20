@@ -1,6 +1,6 @@
 import type { CreateExpressContextOptions } from "@trpc/server/adapters/express";
-import { db } from "@/db";
 import { authService } from "@/container";
+import { db } from "@/db";
 
 // doing dependency injection of db into ctx
 export const createContext = ({
@@ -12,8 +12,37 @@ export const createContext = ({
     req,
     res,
     db,
-    authService
+    auth: {
+      service: authService
+    }
   };
 };
 
 export type Context = Awaited<ReturnType<typeof createContext>>;
+
+// basically the flow is updated as such
+          //          APPLICATION START
+          //                 │
+          //                 ▼
+          //           container.ts
+          //                 │
+          //    ┌────────────┼─────────────┐
+          //    ▼            ▼             ▼
+          //  db        PasswordHasher   AuthUoW
+          //    │                          │
+          //    │                          ▼
+          //    │                DrizzleAuthUnitOfWork
+          //    │
+          //    └──────────────────────────┘
+          //                 │
+          //                 ▼
+          //            AuthService
+          //                 │
+          //                 ▼
+          //         tRPC Context
+          //                 │
+          //                 ▼
+          //              Router
+          //                 │
+          //                 ▼
+          //              Request

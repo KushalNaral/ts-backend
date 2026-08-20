@@ -1,11 +1,11 @@
 import type { CreateUserData, UpdateUserData, UpdateUserStatus } from "@/auth/schemas/auth.schemas";
-import type { Database } from "@/db";
+import type { Database, DatabaseExecutor } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export class UserRepository {
 
-    constructor(private readonly db: Database) { }
+    constructor(private readonly db: DatabaseExecutor) { }
 
     async findById(id: string) {
         const user = await this.db

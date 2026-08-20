@@ -1,16 +1,15 @@
 import { AuthService } from "@/auth/application/auth.service";
 import { Argon2PasswordManager } from "@/auth/infrastructure/argon2-password-manager";
-import { UserRepository } from "@/auth/repository/user.repository";
+import { DrizzleAuthUnitOfWork } from "@/auth/infrastructure/drizzle-auth-unit-of-work";
 import { db } from "@/db";
 
 const passwordManager = new Argon2PasswordManager();
-const userRepository = new UserRepository(db);
+const authUnitOfWork = new DrizzleAuthUnitOfWork(db);
 
 export const authService = new AuthService(
+    authUnitOfWork,
     passwordManager,
-    userRepository
 ) 
-
 // this is basically just something like a depenedncy provider
 // we wirte dependencies and container that require each other here into one container and pass them around
 // kind of like how dependency injection framworks work in go? i think
@@ -34,3 +33,7 @@ export const authService = new AuthService(
         //                         │
         //                         ▼
         //                       Router
+
+// update
+// we just removed the db from here into the scope so that we have transaction
+// these transactions are scoped and are implementation of unit-of-work
