@@ -2,20 +2,11 @@ import { env } from '@/config/env.js';
 import 'dotenv/config';
 import express from 'express';
 import * as trpcExpress from '@trpc/server/adapters/express';
-import { initTRPC } from '@trpc/server';
 import { appRouter } from '@/server/appRouter';
+import { createContext } from '@/server/context';
 
 const app = express();
 const port = env.PORT;
-
-
-const createContext = ({
-  req,
-  res,
-}: trpcExpress.CreateExpressContextOptions) => ({});
-type Context = Awaited<ReturnType<typeof createContext>>;
-
-const t = initTRPC.context<Context>().create();
 
 app.use('/trpc',
     trpcExpress.createExpressMiddleware({
