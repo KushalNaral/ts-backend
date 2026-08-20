@@ -1,4 +1,4 @@
-import type { PasswordHasher } from "@/auth/domain/password-manager";
+import type { PasswordHasher } from "@/auth/domain/password-hasher";
 import type { UserRepository } from "@/auth/repository/user.repository";
 
 export class AuthService {

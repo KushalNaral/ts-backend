@@ -1,4 +1,4 @@
-import type { PasswordHasher } from "@/auth/domain/password-manager";
+import type { PasswordHasher } from "@/auth/domain/password-hasher";
 import * as argon2 from "argon2";
 
 

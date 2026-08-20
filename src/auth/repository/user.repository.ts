@@ -1,15 +1,12 @@
 import type { CreateUserData, UpdateUserData, UpdateUserStatus } from "@/auth/schemas/auth.schemas";
-import type { EmptyRelations } from "drizzle-orm";
-import type { NodePgDatabase } from "drizzle-orm/node-postgres";
-import type { Pool } from "pg";
+import type { Database } from "@/db";
 
 export class UserRepository {
 
-    constructor(private readonly db: NodePgDatabase<EmptyRelations> & {
-        $client: Pool;
-    }) { }
+    constructor(private readonly db: Database) { }
 
-    findById(id: string) { }
+    findById(id: string) { 
+    }
     findByEmail(email: string) { }
     create(data: CreateUserData) { }
     update(id: string, data: UpdateUserData) { }
