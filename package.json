@@ -1,0 +1,33 @@
+{
+  "name": "ts-backend",
+  "version": "1.0.0",
+  "description": "TypeScript Express backend",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "infra:start": "cd infra && docker compose --env-file ../.env up -d",
+    "infra:stop": "cd infra && docker compose --env-file ../.env down",
+    "infra:logs": "cd infra && docker compose --env-file ../.env logs -f",
+    "infra:build": "cd infra && docker compose --env-file ../.env up -d --build",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@trpc/client": "^11.18.0",
+    "@trpc/server": "^11.18.0",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.25",
+    "@types/node": "^22.20.1",
+    "tsx": "^4.23.12",
+    "typescript": "^5.9.3"
+  }
+}
