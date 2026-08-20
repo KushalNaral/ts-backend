@@ -18,5 +18,3 @@ app.use('/trpc',
 app.listen(port, () => {
     console.log("app working on port: " + port);
 })
-
-console.log("env", env)
