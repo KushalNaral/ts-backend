@@ -8,17 +8,14 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-
     "infra:start": "cd infra && docker compose --env-file ../.env up -d",
     "infra:stop": "cd infra && docker compose --env-file ../.env down",
     "infra:logs": "cd infra && docker compose --env-file ../.env logs -f",
     "infra:build": "cd infra && docker compose --env-file ../.env up -d --build",
-
     "db:generate": "npx drizzle-kit generate --config=./src/db/drizzle.config.ts",
     "db:migrate": "npx drizzle-kit migrate --config=./src/db/drizzle.config.ts",
     "db:push": "npx drizzle-kit push --config=./src/db/drizzle.config.ts",
     "db:studio": "npx drizzle-kit studio --config=./src/db/drizzle.config.ts",
-
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],
@@ -27,9 +24,11 @@
   "dependencies": {
     "@trpc/client": "^11.18.0",
     "@trpc/server": "^11.18.0",
+    "argon2": "^0.45.1",
     "dotenv": "^16.6.1",
     "drizzle-orm": "^1.0.0-rc.4",
     "express": "^4.21.0",
+    "jose": "^6.2.9",
     "pg": "^8.23.0",
     "zod": "^4.4.3"
   },
