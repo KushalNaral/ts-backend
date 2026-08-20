@@ -4,7 +4,6 @@ import { sql } from "drizzle-orm";
 import { z } from "zod";
 
 
-
 const healthResponseSchema = z.object({
       status: z.enum(["ok", "error"]),
     message: z.string()
