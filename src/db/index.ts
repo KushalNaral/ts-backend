@@ -3,4 +3,4 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import type { z } from "zod";
 
 export const db = drizzle(env.DATABASE_URL);
-export type Database = z.infer<typeof db>;
+export type Database = typeof db;

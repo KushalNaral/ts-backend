@@ -1,5 +1,6 @@
 import type { PasswordHasher } from "@/auth/domain/password-hasher";
 import type { UserRepository } from "@/auth/repository/user.repository";
+import type { LoginData, RegisterData } from "@/auth/schemas/auth.schemas";
 
 export class AuthService {
     constructor(
@@ -7,11 +8,11 @@ export class AuthService {
         private readonly userRepository: UserRepository
     ){}
 
-    async register(){
+    async register(input: RegisterData){
         
     }
 
-    async login(){
+    async login(input: LoginData){
 
     }
 
