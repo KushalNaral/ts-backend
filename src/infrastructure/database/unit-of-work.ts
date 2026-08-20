@@ -7,6 +7,10 @@ export interface UnitOfWork<TScope extends TransactionScope> {
 export interface TransactionScope {}
 
 // so reasearching into transactions there was quite a bit of confusion
+// PS : the reference 
+//
+// https://docs.hibernate.org/entitymanager/3.4/reference/en/html/transactions.html
+//
 // what was previously being done was basically this
 // controller -> service ( wrapper with tx + error handling ) -> repo
 // in here service knew what the transaction was how it was working and more
