@@ -21,7 +21,7 @@ const envServer = envSchema.safeParse(process.env);
 
 if(!envServer.success){
     console.error("invalid env vars");
-    console.error(JSON.stringify(envServer.error.format(), null, 2));
+    console.error(z.treeifyError(envServer.error));
     process.exit(1);
 }
 
