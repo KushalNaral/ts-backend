@@ -13,7 +13,8 @@ export const loginInput = z.object({
 });
 
 export const updateUserSchema = z.object({
-    name: z.string().min(2),
+    name: z.string().min(2).optional(),
+    lastLoginAt: z.date().optional(),
 });
 
 export const updateUserStatus = z.object({
@@ -48,6 +49,59 @@ export const publicUserSchema = z.object({
 
 export const registerResponseSchema = z.object({
     user: publicUserSchema,
+});
+
+export const loginResponseSchema = z.object({
+    user: publicUserSchema,
+    accessToken: z.string(),
+    refreshToken: z.string(),
+    expiresIn: z.number(),
+});
+
+export const getUserResponseSchema = z.object({
+    user: publicUserSchema,
+});
+
+export const updateUserResponseSchema = z.object({
+    user: publicUserSchema,
+});
+
+export const deleteUserResponseSchema = z.object({
+    success: z.boolean(),
+});
+
+export const getUserInput = z.object({
+    userId: z.uuid(),
+});
+
+export const updateUserInput = z.object({
+    userId: z.uuid(),
+    name: z.string().min(2),
+});
+
+export const deleteUserInput = z.object({
+    userId: z.uuid(),
+});
+
+export const refreshInput = z.object({
+    userId: z.uuid(),
+    refreshToken: z.string(),
+});
+
+export const logoutInput = z.object({
+    userId: z.uuid(),
+    refreshToken: z.string(),
+});
+
+export const refreshResponseSchema = z.object({
+    user: publicUserSchema,
+    accessToken: z.string(),
+    refreshToken: z.string(),
+    expiresIn: z.number(),
+});
+
+export const logoutResponseSchema = z.object({
+    success: z.boolean(),
 });
 
 export type RegisterData =

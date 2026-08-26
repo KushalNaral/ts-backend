@@ -1,14 +1,22 @@
 import { AuthService } from "@/auth/application/auth.service";
 import { Argon2PasswordManager } from "@/auth/infrastructure/argon2-password-manager";
 import { DrizzleAuthUnitOfWork } from "@/auth/infrastructure/drizzle-auth-unit-of-work";
+import { JWTTokenService } from "@/identity/infrastructure/jwt-token-service";
+import { identityContainer } from "@/identity/container";
 import { db } from "@/db";
 
 const passwordManager = new Argon2PasswordManager();
 const authUnitOfWork = new DrizzleAuthUnitOfWork(db);
+const tokenService = new JWTTokenService(
+    identityContainer.jwksProvider,
+    identityContainer.secureKeyStorage
+);
 
 export const authService = new AuthService(
     authUnitOfWork,
     passwordManager,
+    tokenService,
+    identityContainer.sessionService,
 ) 
 // this is basically just something like a depenedncy provider
 // we wirte dependencies and container that require each other here into one container and pass them around
